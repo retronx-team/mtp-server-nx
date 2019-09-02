@@ -45,9 +45,9 @@ INCLUDES	:=	include
 #ROMFS	:=	romfs
 
 # Meta
-APP_TITLE = "mtp-server-nx"
-APP_AUTHOR = "Gillou68310"
-APP_VERSION = "1.0"
+APP_TITLE   := "mtp-server-nx"
+APP_AUTHOR  := "Gillou68310"
+APP_VERSION := "1.0"
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -200,15 +200,11 @@ endif
 else
 
 all	:	$(OUTPUT).nsp
-
 $(OUTPUT).nsp	:	$(OUTPUT).nso $(OUTPUT).npdm
-
 $(OUTPUT).nso	:	$(OUTPUT).elf
-
 endif
 
 $(OUTPUT).elf	:	$(OFILES)
-
 $(OFILES_SRC)	: $(HFILES_BIN)
 
 #---------------------------------------------------------------------------------
