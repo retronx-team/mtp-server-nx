@@ -44,6 +44,11 @@ DATA		:=	data
 INCLUDES	:=	include
 #ROMFS	:=	romfs
 
+# Meta
+APP_TITLE = "mtp-server-nx"
+APP_AUTHOR = "Gillou68310"
+APP_VERSION = "1.0"
+
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
@@ -66,7 +71,6 @@ LIBS	:= -lnx -lstdc++fs
 # include and lib
 #---------------------------------------------------------------------------------
 LIBDIRS	:= $(PORTLIBS) $(LIBNX)
-
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
