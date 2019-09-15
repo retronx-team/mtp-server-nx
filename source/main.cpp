@@ -175,7 +175,7 @@ int main(int argc, char* argv[])
       "sdcard",
       1024U * 1024U * 100U,  /* 100 MB reserved space, to avoid filling the disk */
       false,
-      1024U * 1024U * 1024U * 2U  /* 2GB arbitrary max file size */);
+      1024U * 1024U * 1024U * 4U - 1  /* ~4GB arbitrary max file size */);
 
     MtpDatabase* mtp_database = new SwitchMtpDatabase();
 
