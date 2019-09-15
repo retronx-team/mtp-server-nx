@@ -29,8 +29,68 @@
 
 using namespace android;
 
+// #define APPLET
+#define SYSMODULE
+
+#ifdef SYSMODULE
+extern "C"
+{
+#define INNER_HEAP_SIZE 0x80000
+    extern u32 __start__;
+
+    size_t nx_inner_heap_size = INNER_HEAP_SIZE;
+    char nx_inner_heap[INNER_HEAP_SIZE];
+
+    void __libnx_initheap(void);
+    void __appInit(void);
+    void __appExit(void);
+}
+
+u32 __nx_applet_type = AppletType_None;
+
+void __libnx_initheap(void)
+{
+    void *addr = nx_inner_heap;
+    size_t size = nx_inner_heap_size;
+
+    extern char *fake_heap_start;
+    extern char *fake_heap_end;
+
+    fake_heap_start = (char *)addr;
+    fake_heap_end = (char *)addr + size;
+}
+
+void __appInit(void)
+{
+    smInitialize();
+    Result rc = setsysInitialize();
+    if (R_SUCCEEDED(rc)) {
+        SetSysFirmwareVersion fw;
+        rc = setsysGetFirmwareVersion(&fw);
+        if (R_SUCCEEDED(rc))
+            hosversionSet(MAKEHOSVERSION(fw.major, fw.minor, fw.micro));
+        setsysExit();
+    }
+    fsInitialize();
+    hidInitialize();
+    fsdevMountSdmc();
+}
+
+MtpServer* serverExit = NULL;
+
+void __appExit(void)
+{
+    serverExit->stop();
+    usbExit();
+    hidExit();
+    fsExit();
+    smExit();
+}
+#endif
+
 static void stop_thread(MtpServer* server)
 {
+    #ifdef APPLET
     while (appletMainLoop())
     {
         hidScanInput();
@@ -42,6 +102,9 @@ static void stop_thread(MtpServer* server)
             break;
         }
     }
+    #else
+    serverExit = server;
+    #endif
 }
 
 int main(int argc, char* argv[])
@@ -71,8 +134,10 @@ int main(int argc, char* argv[])
         }
     }
 
+#ifdef APPLET
     consoleInit(NULL);
     std::cout << "Press + to exit";
+#endif
 
     struct usb_device_descriptor device_descriptor = {
         .bLength = USB_DT_DEVICE_SIZE,

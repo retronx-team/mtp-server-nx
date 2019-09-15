@@ -43,6 +43,7 @@ SOURCES		:=	source
 DATA		:=	data
 INCLUDES	:=	include
 #ROMFS	:=	romfs
+APP_TITLEID :=  2200000000000200
 
 # Meta
 APP_TITLE   := "mtp-server-nx"
