@@ -48,7 +48,7 @@ APP_TITLEID :=  00FF00006D7470FF
 # Meta
 APP_TITLE   := "mtp-server-nx"
 APP_AUTHOR  := "Gillou68310"
-APP_VERSION := "1.0"
+APP_VERSION := "1.1"
 
 #---------------------------------------------------------------------------------
 # options for code generation
