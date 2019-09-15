@@ -108,6 +108,7 @@ private:
                 entry.object_format = MTP_FORMAT_ASSOCIATION;
                 entry.object_size = 0;
                 entry.scanned = false;
+
                 struct stat result;
                 stat(p.string().c_str(), &result);
                 entry.last_modified = result.st_mtime;
@@ -155,11 +156,9 @@ private:
         {
             add_file_entry(*it, parent, storage);
         }
-        try {
+
+        if (db.find(parent) != db.end())
             db.at(parent).scanned = true;
-        }
-        catch(...){
-        }
     }
 
     void readFiles(const std::string& sourcedir, const std::string& display, MtpStorageID storage, bool hidden)

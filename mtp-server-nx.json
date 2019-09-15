@@ -1,8 +1,8 @@
 {
 	"name":	"mtp-server-nx",
-	"title_id":	"0x2200000000000200",
-	"title_id_range_min":	"0x2200000000000200",
-	"title_id_range_max":	"0x2200000000000200",
+	"title_id":	"0x00FF00006D7470FF",
+	"title_id_range_min":	"0x00FF00006D7470FF",
+	"title_id_range_max":	"0x00FF00006D7470FF",
 	"main_thread_stack_size":	"0x004000",
 	"main_thread_priority":	44,
 	"default_cpu_id":	3,

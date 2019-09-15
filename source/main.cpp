@@ -29,10 +29,11 @@
 
 using namespace android;
 
-// #define APPLET
-#define SYSMODULE
+// Pick one
+// #define WANT_APPLET
+#define WANT_SYSMODULE
 
-#ifdef SYSMODULE
+#ifdef WANT_SYSMODULE
 extern "C"
 {
 #define INNER_HEAP_SIZE 0x80000
@@ -86,11 +87,11 @@ void __appExit(void)
     fsExit();
     smExit();
 }
-#endif
+#endif // WANT_SYSMODULE
 
 static void stop_thread(MtpServer* server)
 {
-    #ifdef APPLET
+    #ifdef WANT_APPLET
     while (appletMainLoop())
     {
         hidScanInput();
@@ -102,9 +103,11 @@ static void stop_thread(MtpServer* server)
             break;
         }
     }
-    #else
+    #endif // WANT_APPLET
+
+    #ifdef WANT_SYSMODULE
     serverExit = server;
-    #endif
+    #endif // WANT_SYSMODULE
 }
 
 int main(int argc, char* argv[])
@@ -134,10 +137,10 @@ int main(int argc, char* argv[])
         }
     }
 
-#ifdef APPLET
+#ifdef WANT_APPLET
     consoleInit(NULL);
     std::cout << "Press + to exit";
-#endif
+#endif // WANT_APPLET
 
     struct usb_device_descriptor device_descriptor = {
         .bLength = USB_DT_DEVICE_SIZE,
