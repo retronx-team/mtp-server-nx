@@ -61,7 +61,8 @@ void __appInit(void)
 {
     smInitialize();
     Result rc = setsysInitialize();
-    if (R_SUCCEEDED(rc)) {
+    if (R_SUCCEEDED(rc))
+    {
         SetSysFirmwareVersion fw;
         rc = setsysGetFirmwareVersion(&fw);
         if (R_SUCCEEDED(rc))
@@ -84,6 +85,15 @@ void __appExit(void)
     smExit();
 }
 #endif // WANT_SYSMODULE
+
+#ifdef WANT_APPLET
+void userAppInit(void) {
+    appletLockExit();
+}
+void userAppExit(void) {
+    appletUnlockExit();
+}
+#endif // WANT_APPLET
 
 static void stop_thread(MtpServer* server)
 {
