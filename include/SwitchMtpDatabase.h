@@ -155,7 +155,11 @@ private:
         {
             add_file_entry(*it, parent, storage);
         }
-        db.at(parent).scanned = true;
+        try {
+            db.at(parent).scanned = true;
+        }
+        catch(...){
+        }
     }
 
     void readFiles(const std::string& sourcedir, const std::string& display, MtpStorageID storage, bool hidden)
