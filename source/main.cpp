@@ -29,7 +29,6 @@
 
 using namespace android;
 
-
 #ifdef WANT_SYSMODULE
 extern "C"
 {
@@ -88,7 +87,7 @@ void __appExit(void)
 
 static void stop_thread(MtpServer* server)
 {
-    #ifdef WANT_APPLET
+#ifdef WANT_APPLET
     while (appletMainLoop())
     {
         hidScanInput();
@@ -100,11 +99,11 @@ static void stop_thread(MtpServer* server)
             break;
         }
     }
-    #endif // WANT_APPLET
+#endif // WANT_APPLET
 
-    #ifdef WANT_SYSMODULE
+#ifdef WANT_SYSMODULE
     serverExit = server;
-    #endif // WANT_SYSMODULE
+#endif // WANT_SYSMODULE
 }
 
 int main(int argc, char* argv[])
