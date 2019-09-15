@@ -58,7 +58,7 @@ ARCH	:=	-march=armv8-a+crc+crypto -mtune=cortex-a57 -mtp=soft -fPIE
 CFLAGS	:=	-g -Wall -O2 -ffunction-sections \
 			$(ARCH) $(DEFINES)
 
-CFLAGS	+=	$(INCLUDE) -D__SWITCH__
+CFLAGS	+=	$(INCLUDE) -D__SWITCH__ -DWANT_APPLET
 
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -std=gnu++17
 
@@ -188,9 +188,9 @@ DEPENDS	:=	$(OFILES:.o=.d)
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
-ifeq ($(strip $(APP_JSON)),)
-
-all	:	$(OUTPUT).nro
+all				:	applet
+applet			:	$(OUTPUT).nro
+sysmodule		:	$(OUTPUT).nsp
 
 ifeq ($(strip $(NO_NACP)),)
 $(OUTPUT).nro	:	$(OUTPUT).elf $(OUTPUT).nacp
@@ -198,12 +198,8 @@ else
 $(OUTPUT).nro	:	$(OUTPUT).elf
 endif
 
-else
-
-all	:	$(OUTPUT).nsp
 $(OUTPUT).nsp	:	$(OUTPUT).nso $(OUTPUT).npdm
 $(OUTPUT).nso	:	$(OUTPUT).elf
-endif
 
 $(OUTPUT).elf	:	$(OFILES)
 $(OFILES_SRC)	: $(HFILES_BIN)

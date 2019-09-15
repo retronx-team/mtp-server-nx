@@ -29,9 +29,6 @@
 
 using namespace android;
 
-// Pick one
-#define WANT_APPLET
-// #define WANT_SYSMODULE
 
 #ifdef WANT_SYSMODULE
 extern "C"
