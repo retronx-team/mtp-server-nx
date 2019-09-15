@@ -57,6 +57,7 @@ private:
         std::string display_name;
         std::string path;
         std::time_t last_modified;
+        bool scanned;
     };
 
     MtpServer* local_server;
@@ -106,6 +107,7 @@ private:
                 entry.path = p.string();
                 entry.object_format = MTP_FORMAT_ASSOCIATION;
                 entry.object_size = 0;
+                entry.scanned = false;
                 struct stat result;
                 stat(p.string().c_str(), &result);
                 entry.last_modified = result.st_mtime;
@@ -114,7 +116,6 @@ private:
                 if (local_server)
                     local_server->sendObjectAdded(handle);
 
-                parse_directory (p, handle, storage);
             } else {
                 try {
                     entry.storage_id = storage;
@@ -154,6 +155,7 @@ private:
         {
             add_file_entry(*it, parent, storage);
         }
+        db.at(parent).scanned = true;
     }
 
     void readFiles(const std::string& sourcedir, const std::string& display, MtpStorageID storage, bool hidden)
@@ -305,6 +307,10 @@ public:
 
         if (parent == MTP_PARENT_ROOT)
             parent = 0;
+        
+        // Scan unscanned directories
+        else if (!db.at(parent).scanned)
+            parse_directory (db.at(parent).path, parent, storageID);
 
         try
         {
