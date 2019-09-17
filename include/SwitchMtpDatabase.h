@@ -540,7 +540,7 @@ public:
                     newname = strdup(buffer);
 
                     oldpath /= entry.path;
-                    newpath /= oldpath.parent_path() / "/" / newname; //TODO: compare with branch_path
+                    newpath /= oldpath.parent_path() / newname; //TODO: compare with branch_path
 
                     rename(oldpath, newpath);
 
