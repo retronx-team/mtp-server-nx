@@ -950,8 +950,8 @@ public:
             return nullptr;
 
         return getObjectList(db.at(handle).storage_id,
-                             handle,
-                             db.at(handle).object_format);
+                             db.at(handle).object_format,
+                             handle);
     }
 
     virtual MtpResponseCode setObjectReferences(
