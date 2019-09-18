@@ -30,6 +30,8 @@ class MtpDatabase {
 public:
     virtual ~MtpDatabase() {}
 
+    virtual bool                    isHandleValid(MtpObjectHandle handle) = 0;
+
     // called to add a path to include in the database.
     virtual void                    addStoragePath(const MtpString& path,
                                                    const MtpString& displayName,

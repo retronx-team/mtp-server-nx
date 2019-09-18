@@ -57,7 +57,7 @@ private:
         std::string display_name;
         std::string path;
         std::time_t last_modified;
-        bool scanned;
+        bool scanned = false;
     };
 
     MtpServer* local_server;
@@ -107,7 +107,6 @@ private:
                 entry.path = p.string();
                 entry.object_format = MTP_FORMAT_ASSOCIATION;
                 entry.object_size = 0;
-                entry.scanned = false;
 
                 struct stat result;
                 stat(p.string().c_str(), &result);
@@ -220,6 +219,10 @@ public:
     virtual ~SwitchMtpDatabase() {
     }
 
+    virtual bool isHandleValid(MtpObjectHandle handle) {
+        return handle > 0 && handle < counter;
+    }
+
     virtual void addStoragePath(const MtpString& path,
                                 const MtpString& displayName,
                                 MtpStorageID storage,
@@ -312,7 +315,7 @@ public:
             parent = 0;
         
         // Scan unscanned directories
-        else if (!db.at(parent).scanned)
+        else if (isHandleValid(parent) && !db.at(parent).scanned)
             parse_directory (db.at(parent).path, parent, storageID);
 
         try
