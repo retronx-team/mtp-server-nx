@@ -600,7 +600,10 @@ MtpResponseCode MtpServer::doGetObjectReferences() {
         return MTP_RESPONSE_INVALID_OBJECT_HANDLE;
     MtpObjectHandle handle = mRequest.getParameter(1);
 
-    // FIXME - check for invalid object handle
+    if (!mDatabase->isHandleValid(handle)) {
+        return MTP_RESPONSE_INVALID_OBJECT_HANDLE;
+    }
+
     MtpObjectHandleList* handles = mDatabase->getObjectReferences(handle);
     if (handles) {
         mData.putAUInt32(handles);
