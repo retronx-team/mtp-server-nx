@@ -93,7 +93,7 @@ static void stop_thread(MtpServer* server)
         hidScanInput();
         u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
 
-        if (kDown & KEY_PLUS)
+        if (kDown & KEY_B)
         {
             server->stop();
             break;
@@ -135,7 +135,8 @@ int main(int argc, char* argv[])
 
 #ifdef WANT_APPLET
     consoleInit(NULL);
-    std::cout << "Press + to exit";
+    std::cout << "MTP Server is running." << std::endl;
+    std::cout << "> Press B to exit.";
 #endif // WANT_APPLET
 
     struct usb_device_descriptor device_descriptor = {

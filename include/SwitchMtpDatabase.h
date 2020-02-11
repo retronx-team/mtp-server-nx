@@ -112,9 +112,8 @@ private:
                 stat(p.string().c_str(), &result);
                 entry.last_modified = result.st_mtime;
                 db.insert( std::pair<MtpObjectHandle, DbEntry>(handle, entry) );
-
-                if (local_server)
-                    local_server->sendObjectAdded(handle);
+//                if (local_server)
+//                    local_server->sendObjectAdded(handle);
 
             } else {
                 try {
@@ -132,8 +131,8 @@ private:
 
                     db.insert( std::pair<MtpObjectHandle, DbEntry>(handle, entry) );
 
-                    if (local_server)
-                        local_server->sendObjectAdded(handle);
+//                    if (local_server)
+//                        local_server->sendObjectAdded(handle);
 
                 } catch (const filesystem_error& ex) {
                     LOG(WARNING) << "There was an error reading file properties";
