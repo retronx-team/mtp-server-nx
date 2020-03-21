@@ -112,8 +112,6 @@ private:
                 stat(p.string().c_str(), &result);
                 entry.last_modified = result.st_mtime;
                 db.insert( std::pair<MtpObjectHandle, DbEntry>(handle, entry) );
-//                if (local_server)
-//                    local_server->sendObjectAdded(handle);
 
             } else {
                 try {
@@ -130,10 +128,6 @@ private:
                     VLOG(1) << "Adding \"" << p.string() << "\"";
 
                     db.insert( std::pair<MtpObjectHandle, DbEntry>(handle, entry) );
-
-//                    if (local_server)
-//                        local_server->sendObjectAdded(handle);
-
                 } catch (const filesystem_error& ex) {
                     LOG(WARNING) << "There was an error reading file properties";
                 }
@@ -147,7 +141,18 @@ private:
     {
         DbEntry entry;
         std::vector<path> v;
+
+        // XXX Hack: This shouldn't happen but whaterver
+        if(!is_directory(p))
+        {
+            add_file_entry(p, parent, storage);
+            if (db.find(parent) != db.end())
+                db.at(parent).scanned = true;
+            return;
+        }
+
         directory_iterator i(p);
+
         copy(i, directory_iterator(), std::back_inserter(v));
 
         for (std::vector<path>::const_iterator it(v.begin()), it_end(v.end()); it != it_end; ++it)
