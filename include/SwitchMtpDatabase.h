@@ -238,9 +238,11 @@ public:
     virtual void removeStorage(MtpStorageID storage)
     {
         // remove all database entries corresponding to said storage.
-        for(std::map<MtpObjectHandle, DbEntry>::iterator it = db.begin(); it != db.end(); ++it) {
+        for(std::map<MtpObjectHandle, DbEntry>::iterator it = db.begin(); it != db.end();) {
             if (it->second.storage_id == storage)
-                db.erase(it);
+                it = db.erase(it);
+            else
+                it++;
         }
     }
 
@@ -900,9 +902,11 @@ public:
                  * we can safely ignore failures here, since the objects
                  * would not be reachable anyway.
                  */
-                for(std::map<MtpObjectHandle, DbEntry>::iterator it = db.begin(); it != db.end(); ++it) {
+                for(std::map<MtpObjectHandle, DbEntry>::iterator it = db.begin(); it != db.end();) {
                     if (it->second.parent == handle)
-                        db.erase(it);
+                        it = db.erase(it);
+                    else
+                        it++;
                 }
 
                 return MTP_RESPONSE_OK;
