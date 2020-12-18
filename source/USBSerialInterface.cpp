@@ -33,9 +33,9 @@ USBSerialInterface::~USBSerialInterface() {
 
 ssize_t USBSerialInterface::read(char *ptr, size_t len)
 {
-    return usbTransfer(interface_index, EP_OUT, UsbDirection_Read, (void*)ptr, len, U64_MAX);
+    return usbTransfer(interface_index, EP_OUT, UsbDirection_Read, (void*)ptr, len, UINT64_MAX);
 }
 ssize_t USBSerialInterface::write(const char *ptr, size_t len)
 {
-    return usbTransfer(interface_index, EP_IN, UsbDirection_Write, (void*)ptr, len, U64_MAX);
+    return usbTransfer(interface_index, EP_IN, UsbDirection_Write, (void*)ptr, len, UINT64_MAX);
 }
