@@ -319,7 +319,7 @@ static Result _usbCommsTransfer(usbCommsEndpoint *ep, UsbDirection dir, const vo
     UsbDsReportData reportdata;
 
     //Makes sure endpoints are ready for data-transfer / wait for init if needed.
-    rc = usbDsWaitReady(U64_MAX);
+    rc = usbDsWaitReady(UINT64_MAX);
     if (R_FAILED(rc)) return rc;
 
     while(size)
@@ -355,7 +355,7 @@ static Result _usbCommsTransfer(usbCommsEndpoint *ep, UsbDirection dir, const vo
         if (R_FAILED(rc))
         {
             usbDsEndpoint_Cancel(ep->endpoint);
-            eventWait(&ep->endpoint->CompletionEvent, U64_MAX);
+            eventWait(&ep->endpoint->CompletionEvent, UINT64_MAX);
             eventClear(&ep->endpoint->CompletionEvent);
             return rc;
         }
@@ -414,9 +414,9 @@ size_t usbTransfer(u32 interface, u32 endpoint, UsbDirection dir, void* buffer, 
         if (R_FAILED(rc) && g_usbCommsErrorHandling)
         {
             if(dir == UsbDirection_Write)
-                fatalSimple(MAKERESULT(Module_Libnx, LibnxError_BadUsbCommsWrite));
+                diagAbortWithResult(MAKERESULT(Module_Libnx, LibnxError_BadUsbCommsWrite));
             else
-                fatalSimple(MAKERESULT(Module_Libnx, LibnxError_BadUsbCommsRead));
+                diagAbortWithResult(MAKERESULT(Module_Libnx, LibnxError_BadUsbCommsRead));
         }
     }
     return transferredSize;

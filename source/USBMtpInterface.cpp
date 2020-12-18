@@ -39,9 +39,9 @@ ssize_t USBMtpInterface::read(char *ptr, size_t len)
 }
 ssize_t USBMtpInterface::write(const char *ptr, size_t len)
 {
-    return usbTransfer(interface_index, EP_IN, UsbDirection_Write, (void*)ptr, len, U64_MAX);
+    return usbTransfer(interface_index, EP_IN, UsbDirection_Write, (void*)ptr, len, UINT64_MAX);
 }
 ssize_t USBMtpInterface::sendEvent(const char *ptr, size_t len)
 {
-    return usbTransfer(interface_index, EP_INT, UsbDirection_Write, (void*)ptr, len, U64_MAX);
+    return usbTransfer(interface_index, EP_INT, UsbDirection_Write, (void*)ptr, len, UINT64_MAX);
 }
